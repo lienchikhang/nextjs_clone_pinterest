@@ -1,0 +1,180 @@
+.modal__wrapper {
+
+    .modal__top {
+        @apply flex flex-col justify-center items-center;
+
+        svg {
+            @apply text-pink-500 mb-4;
+        }
+
+        .title {
+            @apply text-3xl px-4 font-semibold mb-2;
+        }
+    }
+
+    .modal__form {
+        @apply p-7;
+
+        .input {
+
+            &:first-child {
+                @apply m-0;
+            }
+
+            &:nth-child(2) {
+                @apply mt-5;
+            }
+
+            &:nth-child(3) {
+                @apply mt-5;
+            }
+
+            &:nth-child(4) {
+                @apply mt-5;
+            }
+        }
+
+        .sub-error-list {
+
+            &:first-child {
+                @apply px-1 pb-4 pt-3;
+            }
+
+            &:nth-child(2) {
+                @apply pt-2;
+            }
+
+            li {
+                @apply py-0;
+
+                .MuiListItemAvatar-root.css-1e9lk82-MuiListItemAvatar-root {
+                    @apply min-w-7
+                }
+
+                svg {
+                    @apply w-[15px] h-[15px] text-red-600
+                }
+
+                p {
+                    @apply text-[12px] text-red-600
+                }
+            }
+
+        }
+
+        .form-btn {
+            @apply w-full mt-4 bg-red-600 text-white font-semibold rounded-full py-3 transition-all;
+
+            &:hover {
+                @apply bg-red-700;
+            }
+        }
+    }
+
+    .modal__bottom {
+        span {
+            @apply text-[11px] block text-center;
+
+            a {
+                @apply font-bold
+            }
+        }
+    }
+}
+
+.slideshow {
+    @apply grid grid-cols-7 w-screen h-screen px-4 gap-5;
+
+    .slide__item {
+        @apply relative h-full rounded-lg w-full;
+
+        img {
+            @apply absolute rounded-lg z-10;
+            transition: 4s linear;
+
+            &.i1 {
+                top: 50%;
+                transform: translateY(-50%);
+                animation: moveDown 12s infinite;
+            }
+
+            &.i2 {
+                top: 50%;
+
+                transform: translateY(-70%);
+                animation: moveDown2 12s infinite;
+            }
+
+            &.i3 {
+                top: 5%;
+                left: -45%;
+                transform: translate(50%, 0%);
+                animation: moveRight 12s infinite;
+            }
+
+
+        }
+    }
+
+    video {
+        @apply absolute left-0 right-0 top-0 bottom-0 -z-10;
+    }
+}
+
+@keyframes moveDown {
+    0% {
+        transform: translateY(-50%);
+    }
+
+    25% {
+        transform: translateY(15%);
+    }
+
+    50% {
+        transform: translateY(-50%);
+    }
+
+    75% {
+        transform: translateY(-70%);
+    }
+
+    100% {
+        transform: translateY(-50%);
+    }
+}
+
+@keyframes moveDown2 {
+    0% {
+        transform: translateY(-70%);
+    }
+
+    25% {
+        transform: translateY(-75%);
+    }
+
+    50% {
+        transform: translateY(-60%);
+    }
+
+    75% {
+        transform: translateY(35%);
+    }
+
+    100% {
+        transform: translateY(-70%);
+    }
+}
+
+@keyframes moveRight {
+    0% {
+        transform: translateX(0);
+    }
+
+    50% {
+        transform: translateX(50%);
+    }
+
+    100% {
+        transform: translateX(0);
+    }
+}
