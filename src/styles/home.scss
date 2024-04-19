@@ -1,0 +1,107 @@
+header {
+    @apply flex items-center px-5 py-4;
+
+    .header__logo {
+        svg {
+            @apply p-2 rounded-full transition-all cursor-pointer;
+
+            &:hover {
+                background: rgb(201, 199, 199);
+            }
+        }
+    }
+
+    .header__button {
+        @apply flex items-center px-4;
+
+        button {
+            @apply mr-1 px-4 py-3 text-base text-black font-semibold rounded-full transition-all cursor-pointer;
+
+            &.active {
+                @apply bg-black text-white;
+            }
+        }
+    }
+
+    .header__search {
+        @apply relative flex-1 px-4 py-1 flex items-center rounded-full;
+        background-color: rgb(241, 241, 241);
+
+        svg {
+            @apply font-medium;
+            color: #333;
+
+            &:nth-child(3) {
+                @apply hidden w-[45px] h-[45px] p-[9px] rounded-full absolute right-0 transition-all;
+
+
+                &.active {
+                    @apply block;
+                }
+
+                &:hover {
+                    background: rgb(201, 199, 199);
+                }
+            }
+        }
+
+        input {
+            @apply outline-none px-3 py-2 bg-transparent flex-1;
+            color: #333;
+        }
+
+        .modal__search {
+            @apply block max-h-[300px] overflow-scroll opacity-0 py-6 px-8 w-full absolute -bottom-80 z-10 left-0 rounded-lg transition-all;
+            // box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+            // box-shadow: rgb(38, 57, 77) 0px 20px 30px -10px;
+            box-shadow: rgba(17, 17, 26, 0.1) 0px 4px 16px, rgba(17, 17, 26, 0.1) 0px 8px 24px, rgba(17, 17, 26, 0.1) 0px 16px 56px;
+
+            &.active {
+                @apply opacity-100;
+            }
+
+            h2 {
+                @apply font-medium;
+
+                &:nth-child(3) {
+                    @apply mt-3;
+                }
+            }
+
+            ul {
+                @apply flex items-center flex-wrap mt-3;
+
+                li {
+                    @apply py-2 mr-8 mb-4;
+
+                    img {
+                        @apply w-[200px] h-[200px] object-cover rounded-lg
+                    }
+                }
+
+                &.recent__search {
+                    li {
+                        @apply px-3 py-2 rounded-full mr-2 mb-2;
+                        background: rgb(201, 199, 199);
+
+                        img {
+                            @apply w-[200px] h-[200px] object-cover
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    .header__actions {
+        @apply px-4 flex items-center;
+
+        svg {
+            @apply w-[40px] h-[40px] mr-3 p-2 rounded-full transition-all cursor-pointer;
+
+            &:hover {
+                background: rgb(201, 199, 199);
+            }
+        }
+    }
+}
