@@ -30,19 +30,7 @@ export async function POST(req: NextApiRequest, res: NextResponse) {
 
         const rs = await response.json();
 
-        console.log('rs', rs);
-
-        const decode = jwt.decode(rs.content) as payload;
-
         const res = NextResponse.json(rs);
-
-        res.cookies.set({
-            name: 'c_user',
-            value: rs.content,
-            httpOnly: true,
-            expires: decode?.exp
-        })
-
 
         return res;
 

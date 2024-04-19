@@ -6,7 +6,7 @@ import { useRouter } from 'next/navigation';
 import React, { useState } from 'react'
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import ErrorIcon from '@mui/icons-material/Error';
-import { createCookie } from '../api/auth/login/actions';
+import Cookies from 'js-cookie';
 
 type FormValues = {
     email: string;
@@ -18,6 +18,14 @@ type FormValues = {
 type NotificationPlacement = NotificationArgsProps['placement'];
 
 const emailRegex = /^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$/;
+
+const sleep = () => {
+    return new Promise((resolve) => {
+        setTimeout(() => {
+            resolve(true);
+        }, 1000)
+    })
+}
 
 
 const validateEmail = (value: string) => {
@@ -66,11 +74,13 @@ const ModalLogin = () => {
             body: JSON.stringify(finalData)
         })
             .then((res) => res.json())
-            .then((data) => [
+            .then(async (data) => [
                 console.log('data::', data),
                 data.status === 409 || data.status === 400 && openErrorNotification('topRight', data.mess),
                 data.status === 200 && openSuccessNotification('topRight', data.mess),
-                // router.push('/')
+                data.status === 200 && await sleep(),
+                data.status === 200 && Cookies.set('c_user', data.content),
+                data.status === 200 && router.push('/home')
             ])
 
     };
