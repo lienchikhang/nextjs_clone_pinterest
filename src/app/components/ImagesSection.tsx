@@ -1,8 +1,9 @@
 'use client'
-import React, { useRef } from 'react'
+import React from 'react'
 import useSWR from 'swr'
 import ImageItem from './ImageItem';
 import axios from 'axios';
+import axiosInstance from '@/configs/axios.config';
 
 
 const fetcher = (url: string) => axios.get(url)
@@ -11,6 +12,7 @@ interface Image {
     img_url: string
     img_id: number
 }
+
 
 const ImagesSection = () => {
 
@@ -33,7 +35,7 @@ const ImagesSection = () => {
 
     return (
         <div className='images__wrapper'>
-            {data && data?.data?.content?.data.map((img: Image, idx: number) => {
+            {data && data?.data.content.data.map((img: Image, idx: number) => {
                 return <ImageItem key={idx} data={img} />
             })}
         </div>

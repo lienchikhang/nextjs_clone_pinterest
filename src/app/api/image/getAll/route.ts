@@ -11,6 +11,14 @@ const GET_URL = 'image/get-all/'
 export async function GET(req: NextRequest) {
     try {
 
+        //check token expired
+        const newToken = await axiosInstance.post('auth/refresh', null, {
+            headers: {
+                'Authorization': `Bearer ${req.cookies.get('c_user')?.value}`,
+            }
+        });
+
+        console.log('newToken', newToken.data)
 
         let response2 = await axiosInstance.get(GET_URL, {
             headers: {
@@ -18,14 +26,11 @@ export async function GET(req: NextRequest) {
             }
         })
 
-        console.log('before', response2);
-
-        addToQueue(JSON.stringify(response2.data));
-
-        console.log('res22222', response2)
-
+        console.log('response2ddata', response2.data);
 
         return NextResponse.json(response2.data);
+
+
 
 
     } catch (error) {
@@ -35,7 +40,7 @@ export async function GET(req: NextRequest) {
             cookies().delete('c_user');
         }
 
-        return NextResponse.json({ error })
+        return NextResponse.json(error)
 
     }
 }

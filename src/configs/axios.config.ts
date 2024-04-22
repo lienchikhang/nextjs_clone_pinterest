@@ -7,21 +7,19 @@ import { getQueue } from "./queue.config";
 
 const axiosInstance = axios.create({
     baseURL: 'http://localhost:8080/',
-    withCredentials: true
+    // withCredentials: true
 })
 
 
 // Add a response interceptor
 axiosInstance.interceptors.response.use(function (response) {
-    console.log('response', response)
     return response;
 }, async function (error) {
 
     const cookie = cookies().get('c_user');
 
-    console.log('cookie', cookie);
-
-    console.log(error.response.data.message)
+    console.log('error.response', error.response.data.message)
+    console.log('error.config.headers', error.config.headers)
 
     if (error.response.data.message === 'TokenExpiredError') {
         const newToken = await axiosInstance.post('auth/refresh', null, {
@@ -30,22 +28,24 @@ axiosInstance.interceptors.response.use(function (response) {
             }
         });
 
-        console.log('newToken', newToken.data.content);
         cookies().set('c_user', newToken.data.content);
 
-        if (getQueue().length > 0) {
-            return Promise.resolve(JSON.parse(getQueue()[0]));
-        }
+        const originalRequest = error.config;
+        originalRequest.headers['Authorization'] = `Bearer ${newToken.data.content}`;
+
+        return axiosInstance(originalRequest);
+
+    } else if (error.response.data.message === 'TokenIsGood!') {
+        const originalRequest = error.config;
+        originalRequest.headers['Authorization'] = `${error.config.headers.Authorization}`;
+
+        return axiosInstance(originalRequest);
+    } else {
+        return Promise.reject(error.response.data.message);
 
     }
-    //     console.log('res from fail', cookie.data.content);
-    //     Cookies.set('c_user', cookie.data.content);
 
-    //     // return Promise.resolve(cookie.data.content);
-    // }
-    return Promise.reject(error.response.data.mess);
 });
 
 export default axiosInstance;
 
-//eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTcxMzY5NTg2NCwiZXhwIjoxNzEzNjk1ODg0fQ.BNHvgbNCeWAtNwucq2OBqnSI_tdYJiL-JqmpwWXppdU
