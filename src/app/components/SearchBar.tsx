@@ -8,7 +8,9 @@ import { Context } from '@/redux/context';
 const SearchBar = () => {
     const [state, dispatch] = useContext(Context);
 
+
     const handleSearch = () => {
+        if (state.modal.isOpen) return;
         dispatch({
             payload: true,
             type: 'toggleSearchModal'

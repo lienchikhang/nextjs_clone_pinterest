@@ -1,8 +1,6 @@
-
 import { Metadata } from 'next';
 import React from 'react'
-import Header from '../components/Header';
-import Provider from '@/redux/provider';
+import ImagesSection from '../components/ImagesSection';
 
 
 export const metadata: Metadata = {
@@ -12,9 +10,9 @@ export const metadata: Metadata = {
 
 const Home = () => {
     return (
-        <div>
-
-        </div>
+        <section className='home__images'>
+            <ImagesSection />
+        </section>
     )
 }
 

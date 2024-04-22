@@ -6,7 +6,7 @@ export default function middleware(req: NextRequest) {
     if (!req.nextUrl.pathname) return NextResponse.redirect('http://localhost:3000/home');
 
 
-    let verify = req.cookies.get('c_user');
+    let verify = req.cookies.get('c_user')?.value;
 
 
     if (!verify && req.nextUrl.pathname.includes('home')) return NextResponse.redirect('http://localhost:3000/auth/login');
