@@ -1,8 +1,9 @@
 'use client'
-
-import { Button } from '@mui/material'
 import Image from 'next/image'
-import React, { useEffect, useRef, useState } from 'react'
+import React from 'react'
+import { useRouter } from "next/navigation";
+import SaveButton from './SaveButton';
+
 
 interface Props {
     data: {
@@ -13,11 +14,18 @@ interface Props {
 
 const ImageItem: React.FC<Props> = ({ data }) => {
 
+    const navigate = useRouter();
+
+    const handleClick = () => {
+        navigate.push(`home/pin/${data.img_id}`);
+    }
+
 
     return (
         <div className='image__item'>
-            <button>Save</button>
-            <Image src={data.img_url} width={200} height={200} alt='pinterest image' />
+            <div onClick={handleClick} className='image__item-cover'></div>
+            <SaveButton imgId={data.img_id} />
+            <Image onClick={handleClick} src={data.img_url} width={200} height={200} alt='pinterest image' />
         </div>
     )
 }

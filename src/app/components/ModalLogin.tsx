@@ -3,10 +3,11 @@
 import { Button, List, ListItem, ListItemAvatar, ListItemText, TextField } from '@mui/material';
 import { NotificationArgsProps, notification } from 'antd';
 import { useRouter } from 'next/navigation';
-import React, { useState } from 'react'
+import React, { useContext } from 'react'
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import ErrorIcon from '@mui/icons-material/Error';
 import Cookies from 'js-cookie';
+import { Context } from '@/redux/context';
 
 type FormValues = {
     email: string;
@@ -36,9 +37,13 @@ const validateEmail = (value: string) => {
 };
 
 const ModalLogin = () => {
+
     const { register, handleSubmit, formState: { errors }, setFocus, control } = useForm<FormValues>();
     const [api, contextHolder] = notification.useNotification();
+    const [payload, dispatch] = useContext(Context);
     const router = useRouter();
+
+    console.log('payload in modallogin', payload)
 
     React.useEffect(() => {
         setFocus("email");
@@ -74,15 +79,21 @@ const ModalLogin = () => {
             body: JSON.stringify(finalData)
         })
             .then((res) => res.json())
-            .then(async (data) => [
-                console.log('data::', data),
-                data.status === 409 || data.status === 400 && openErrorNotification('topRight', data.mess),
-                data.status === 200 && openSuccessNotification('topRight', data.mess),
-                data.status === 200 && await sleep(),
-                data.status === 200 && Cookies.set('c_user', data.content),
+            .then(async (data) => {
+                console.log('data::', data.content);
+                data.status === 409 || data.status === 400 && openErrorNotification('topRight', data.message);
+                data.status === 200 && openSuccessNotification('topRight', data.message);
+                data.status === 200 && await sleep();
+                data.status === 200 && Cookies.set('c_user', data.content.accessToken);
+                data.status === 200 && Cookies.set('full_name', data.content.full_name.split('')[0]) && Cookies.set('avatar', data.content.avatar || '') && dispatch({
+                    payload: {
+                        full_name: data.content.full_name,
+                        avatar: data.content.avatar || ''
+                    },
+                    type: 'updateUser'
+                });
                 data.status === 200 && router.push('/home')
-            ])
-
+            })
     };
 
     return (

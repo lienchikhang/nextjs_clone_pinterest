@@ -35,14 +35,8 @@ axiosInstance.interceptors.response.use(function (response) {
 
         return axiosInstance(originalRequest);
 
-    } else if (error.response.data.message === 'TokenIsGood!') {
-        const originalRequest = error.config;
-        originalRequest.headers['Authorization'] = `${error.config.headers.Authorization}`;
-
-        return axiosInstance(originalRequest);
     } else {
         return Promise.reject(error.response.data.message);
-
     }
 
 });

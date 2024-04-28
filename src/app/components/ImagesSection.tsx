@@ -1,9 +1,12 @@
 'use client'
-import React from 'react'
+
+import React, { useEffect, useState } from 'react'
 import useSWR from 'swr'
 import ImageItem from './ImageItem';
 import axios from 'axios';
-import axiosInstance from '@/configs/axios.config';
+import Loading from './Loading';
+import InfiniteScroll from 'react-infinite-scroll-component';
+import { Waypoint } from 'react-waypoint';
 
 
 const fetcher = (url: string) => axios.get(url)
@@ -16,28 +19,43 @@ interface Image {
 
 const ImagesSection = () => {
 
-    const { data, error, isLoading } = useSWR(
-        "/api/image/getAll",
-        fetcher,
-        {
-            revalidateOnFocus: true,
-            revalidateIfStale: true,
-        }
-    );
+    const [page, setPage] = useState(1);
+    const [images, setImages] = useState<any[]>([]);
 
-    if (isLoading) {
-        return <div>
-            <h1>...Loading</h1>
-        </div>
+    const handleScroll = () => {
+        if (window.innerHeight + document.documentElement.scrollTop + 1 >= document.documentElement.scrollHeight) {
+            setPage((prev) => prev + 1);
+        }
     }
 
-    console.log('data', data)
+    useEffect(() => {
+        window.addEventListener('scroll', handleScroll);
+
+        return () => {
+            window.removeEventListener('scroll', handleScroll);
+        }
+    })
+
+
+    useEffect(() => {
+        const fetchData = async () => {
+            axios.get(`/api/image/get-all?page=${page}`)
+                .then((res) => {
+                    console.log('res in ImagesSection', res);
+                    setImages(prevImages => [...prevImages, ...res?.data?.content?.data])
+                })
+                .catch((err) => console.log('err', err))
+        };
+
+        fetchData();
+    }, [page])
 
     return (
         <div className='images__wrapper'>
-            {data && data?.data.content.data.map((img: Image, idx: number) => {
-                return <ImageItem key={idx} data={img} />
-            })}
+
+            {images && images.map((img: Image, idx: number) => (
+                <ImageItem key={idx} data={img} />
+            ))}
         </div>
     )
 }

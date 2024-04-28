@@ -1,0 +1,147 @@
+.pin__wrapper {
+    @apply px-10; //mt-24
+
+    .pin__btn-back {
+        @apply bg-transparent cursor-pointer flex items-center fixed top-24 left-5;
+
+        svg {
+            @apply p-2 mr-2 w-[40px] h-[40px] rounded-full transition-all;
+
+            &:hover {
+                background: rgb(201, 199, 199);
+            }
+        }
+
+        span {
+            @apply font-medium text-xl
+        }
+    }
+
+    .pin__modal {
+        @apply w-[75%] mx-auto min-h-[750px] relative bg-white rounded-3xl flex items-center mt-5; //overflow-hidden
+        // box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
+        // box-shadow: rgba(17, 17, 26, 0.1) 0px 1px 0px, rgba(17, 17, 26, 0.1) 0px 8px 24px, rgba(17, 17, 26, 0.1) 0px 16px 48px;
+        // box-shadow: rgba(0, 0, 0, 0.56) 0px 22px 70px 4px;
+        box-shadow: rgba(17, 17, 26, 0.1) 0px 4px 16px, rgba(17, 17, 26, 0.1) 0px 8px 24px, rgba(17, 17, 26, 0.1) 0px 16px 56px;
+
+        .pin__img {
+
+            @apply w-1/2 max-h-[750px] overflow-scroll;
+
+            img {
+                @apply w-full object-contain rounded-s-3xl;
+            }
+        }
+
+        .pin__info {
+            @apply w-1/2 absolute top-0 bottom-0 right-0;
+
+            .pin__action {
+                @apply flex items-center justify-between sticky left-0 top-20 bg-white p-4 z-50 rounded-t-3xl;
+
+                svg {
+                    @apply p-2 mr-2 w-[40px] h-[40px] rounded-full transition-all;
+
+                    &:hover {
+                        background: rgb(201, 199, 199);
+                    }
+                }
+            }
+
+            .pin__content {
+                @apply p-6;
+
+                h1 {
+                    @apply text-xl font-semibold
+                }
+
+                .pin__author {
+
+                    @apply flex items-center justify-between mt-4;
+
+                    .left {
+                        @apply flex items-center;
+
+                        .img {
+                            @apply rounded-full mr-3
+                        }
+                    }
+
+                    .btn-follow {
+                        @apply px-4 py-3 rounded-full font-medium;
+                        background: #e9e9e9;
+                    }
+                }
+            }
+
+            .pin__comment {
+                @apply p-6 max-h-[384px] min-h-[384px] overflow-scroll;
+
+                .comment__collapse {
+                    @apply flex justify-between items-center cursor-pointer mb-3;
+
+                    h3 {
+                        @apply font-semibold;
+                    }
+                }
+
+                .comment__showmore {
+                    @apply text-center text-sm text-red-600 cursor-pointer;
+                }
+
+                .comment__wrapper {
+                    .comment__info {
+                        @apply flex items-center;
+
+                        .img {
+                            @apply object-cover mr-3 rounded-full;
+                        }
+
+                        h3 {
+                            @apply font-medium;
+                        }
+                    }
+
+                    .comment__content {
+                        @apply px-2
+                    }
+                }
+            }
+
+            .pin__send {
+                position: -webkit-sticky;
+                @apply bg-white p-6 sticky bottom-0 left-0 top-48 z-50;
+                border-top: 1px solid rgb(239, 239, 239);
+
+                .send__title {
+                    @apply text-xl font-medium mb-5;
+                }
+
+                .user__comment {
+                    @apply flex items-center;
+
+                    .img {
+                        @apply rounded-full;
+                    }
+
+                    .user__input {
+                        @apply flex items-center justify-between ml-2 pl-3 pr-1 py-1 rounded-full flex-1;
+                        border: 1px solid rgb(239, 239, 239)
+                    }
+
+                    input {
+                        @apply w-3/4 outline-none;
+                    }
+
+                    svg {
+                        @apply opacity-0 cursor-pointer w-[40px] h-[40px] p-2 bg-red-600 text-white rounded-full transition-all;
+
+                        &.active {
+                            @apply opacity-100;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

@@ -25,6 +25,7 @@ const style = {
 };
 
 const Login = () => {
+
     return (
         <div>
             <SlideShow />

@@ -1,5 +1,5 @@
 header {
-    @apply flex items-center px-5 py-4;
+    @apply flex items-center px-5 py-4 sticky top-0 z-50 left-0 right-0 bg-white;
 
     .header__logo {
         svg {
@@ -50,13 +50,19 @@ header {
             color: #333;
         }
 
-        .modal__search {
-            @apply block max-h-[300px] bg-white overflow-scroll opacity-0 py-6 px-8 w-full absolute -bottom-80 z-50 left-0 rounded-lg transition-all;
-            box-shadow: rgba(17, 17, 26, 0.1) 0px 4px 16px, rgba(17, 17, 26, 0.1) 0px 8px 24px, rgba(17, 17, 26, 0.1) 0px 16px 56px;
+        .modal__search-wrapper {
+            @apply hidden fixed top-20 left-0 right-0 bottom-0;
+            background: #00000097;
 
             &.active {
-                @apply opacity-100;
+                @apply block;
             }
+        }
+
+        .modal__search {
+            @apply block mt-4 mx-auto w-3/4 h-[90%] bg-white overflow-scroll py-6 px-8 rounded-lg transition-all;
+            box-shadow: rgba(17, 17, 26, 0.1) 0px 4px 16px, rgba(17, 17, 26, 0.1) 0px 8px 24px, rgba(17, 17, 26, 0.1) 0px 16px 56px;
+
 
             h2 {
                 @apply font-medium;
@@ -105,7 +111,7 @@ header {
 }
 
 .home__images {
-    @apply px-2;
+    @apply px-2 mt-20;
 
     .images__wrapper {
         columns: 5;
@@ -116,18 +122,23 @@ header {
             @apply relative w-full mb-5 cursor-pointer;
 
             &:hover {
-                &::after {
-                    @apply opacity-35
-                }
 
                 button {
                     @apply opacity-100
                 }
             }
 
-            &::after {
-                content: '';
-                @apply block absolute top-0 left-0 w-full h-full bg-black opacity-0 transition-all rounded-2xl z-10 lowercase;
+            // &::after {
+            //     content: '';
+            //     @apply block absolute top-0 left-0 w-full h-full bg-black opacity-0 transition-all rounded-2xl z-10 lowercase;
+            // }
+
+            .image__item-cover {
+                @apply block absolute top-0 left-0 w-full h-full bg-black opacity-0 transition-all rounded-2xl z-20 lowercase;
+
+                &:hover {
+                    @apply opacity-35
+                }
             }
 
             button {
@@ -137,6 +148,10 @@ header {
                     @apply bg-red-800;
                 }
 
+                &.saved {
+                    @apply bg-black;
+                }
+
             }
 
             img {
@@ -144,5 +159,15 @@ header {
                 box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
             }
         }
+    }
+}
+
+.loading__wrapper {
+    @apply absolute top-0 left-0 w-full h-full bg-black opacity-30;
+
+    span {
+        @apply absolute top-1/2 left-1/2;
+
+        transform: translate(-50%, -50%);
     }
 }

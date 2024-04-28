@@ -1,6 +1,7 @@
 import { Metadata } from 'next';
 import React from 'react'
 import ImagesSection from '../components/ImagesSection';
+import '../../styles/home.scss'
 
 
 export const metadata: Metadata = {
