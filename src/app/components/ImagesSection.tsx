@@ -36,13 +36,17 @@ const ImagesSection = () => {
         }
     })
 
+    console.log('images in ImagesSection', images);
+
 
     useEffect(() => {
         const fetchData = async () => {
             axios.get(`/api/image/get-all?page=${page}`)
                 .then((res) => {
-                    console.log('res in ImagesSection', res);
-                    setImages(prevImages => [...prevImages, ...res?.data?.content?.data])
+                    if (res?.data?.content) {
+                        console.log('res in ImagesSection', res);
+                        setImages(prevImages => [...prevImages, ...res?.data?.content?.data])
+                    }
                 })
                 .catch((err) => console.log('err', err))
         };

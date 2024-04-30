@@ -27,7 +27,7 @@
 
         .usersave__wrapper {
             .btn__section {
-                @apply flex items-center;
+                @apply flex items-center justify-between mx-auto w-[10%];
 
                 button {
                     @apply relative mx-2 px-2 py-2 rounded-xl text-black font-medium transition-all;

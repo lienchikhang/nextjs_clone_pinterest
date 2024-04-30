@@ -15,7 +15,6 @@ const SaveButton: React.FC<Props> = ({ imgId }) => {
             return;
         }
         const rs = await axios.post(`/api/image/save/${imgId}`)
-        console.log('rs in savebtn', rs)
         if (rs.status === 200) {
             setSaved(true);
         }

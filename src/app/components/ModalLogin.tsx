@@ -43,7 +43,6 @@ const ModalLogin = () => {
     const [payload, dispatch] = useContext(Context);
     const router = useRouter();
 
-    console.log('payload in modallogin', payload)
 
     React.useEffect(() => {
         setFocus("email");

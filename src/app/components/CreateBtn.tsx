@@ -6,8 +6,8 @@ import React, { useContext, useState } from 'react';
 
 const CreateBtn = () => {
 
-    const [clicked, setClicked] = useState(false);
     const [payload, dispatch] = useContext(Context);
+    const [clicked, setClicked] = useState(payload.activeBtn == 'create');
     const navigate = useRouter();
 
     const handleClick = () => {
@@ -21,7 +21,7 @@ const CreateBtn = () => {
     }
 
     return (
-        <button onClick={handleClick} className={`${clicked && payload.activeBtn == 'create' && 'active'}`}>Create</button>
+        <button onClick={handleClick} className={`${clicked && 'active'}`}>Create</button>
     )
 }
 
