@@ -11,7 +11,6 @@ import InfiniteScroll from 'react-infinite-scroll-component';
 
 const ImageSaveSection = () => {
 
-    const { scrollY } = useScroll();
     const [images, setImages] = useState<any[]>([]);
     const [page, setPage] = useState<number>(2);
     const [total, setTotal] = useState(0);

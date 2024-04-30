@@ -19,48 +19,49 @@ interface Image {
 
 const ImagesSection = () => {
 
-    const [page, setPage] = useState(1);
     const [images, setImages] = useState<any[]>([]);
+    const [page, setPage] = useState<number>(2);
+    const [total, setTotal] = useState(0);
 
-    const handleScroll = () => {
-        if (window.innerHeight + document.documentElement.scrollTop + 1 >= document.documentElement.scrollHeight) {
-            setPage((prev) => prev + 1);
-        }
+    console.log({ page, total, images });
+
+    //?page=${page}
+    useEffect(() => {
+        axios.get(`/api/image/get-all`)
+            .then((res) => {
+                if (res?.data?.error) {
+                    alert('het phien dang nhap');
+                    return;
+                }
+                setImages(res?.data?.content?.data);
+                setTotal(res.data.content.totalPage);
+            })
+            .catch((err) => console.log('err', err))
+    }, [])
+
+    const fetchMoreData = (page: number) => {
+        axios.get(`/api/image/get-all?page=${page}`)
+            .then((res) => {
+                console.log('rs', res.data);
+                setImages(prev => [...prev, ...res.data.content.data]);
+                setPage(prev => prev + 1);
+            })
+            .catch((err) => console.log('err', err))
     }
 
-    useEffect(() => {
-        window.addEventListener('scroll', handleScroll);
-
-        return () => {
-            window.removeEventListener('scroll', handleScroll);
-        }
-    })
-
-    console.log('images in ImagesSection', images);
-
-
-    useEffect(() => {
-        const fetchData = async () => {
-            axios.get(`/api/image/get-all?page=${page}`)
-                .then((res) => {
-                    if (res?.data?.content) {
-                        console.log('res in ImagesSection', res);
-                        setImages(prevImages => [...prevImages, ...res?.data?.content?.data])
-                    }
-                })
-                .catch((err) => console.log('err', err))
-        };
-
-        fetchData();
-    }, [page])
-
+    //images__wrapper
     return (
-        <div className='images__wrapper'>
-
+        <InfiniteScroll
+            className='images__wrapper'
+            dataLength={images.length}
+            next={() => fetchMoreData(page)}
+            hasMore={page <= total}
+            loader={<h4>Loading...</h4>}
+        >
             {images && images.map((img: Image, idx: number) => (
                 <ImageItem key={idx} data={img} />
             ))}
-        </div>
+        </InfiniteScroll>
     )
 }
 
