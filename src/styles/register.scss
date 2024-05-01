@@ -98,7 +98,7 @@
 }
 
 .slideshow {
-    @apply grid grid-cols-7 w-screen h-screen px-4 gap-5;
+    @apply grid grid-cols-7 w-screen h-screen px-3 gap-5;
 
     .slide__item {
         @apply relative h-full rounded-lg w-full;

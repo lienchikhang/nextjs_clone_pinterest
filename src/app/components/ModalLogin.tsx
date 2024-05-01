@@ -91,7 +91,7 @@ const ModalLogin = () => {
                     },
                     type: 'updateUser'
                 });
-                data.status === 200 && router.push('/')
+                data.status === 200 && window.location.reload();
             })
     };
 

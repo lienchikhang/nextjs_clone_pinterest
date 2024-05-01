@@ -34,7 +34,7 @@ const ImageSaveSection = () => {
     }, [])
 
     const fetchMoreData = (page: number) => {
-        axios.get(`/api/image/save?qRecord=${page}`)
+        axios.get(`/api/image/save?page=${page}`)
             .then((res) => {
                 console.log('rs', res.data);
                 setImages(prev => [...prev, ...res.data.content.data]);
