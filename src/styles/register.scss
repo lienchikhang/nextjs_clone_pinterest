@@ -78,6 +78,14 @@
         }
     }
 
+    .to-register {
+        @apply text-[14px] block text-center mb-3;
+
+        a {
+            @apply font-bold
+        }
+    }
+
     .modal__bottom {
         span {
             @apply text-[11px] block text-center;

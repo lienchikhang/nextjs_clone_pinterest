@@ -111,7 +111,7 @@ header {
 }
 
 .home__images {
-    @apply px-2 mt-20;
+    @apply px-2;
 
     .images__wrapper {
         columns: 5;

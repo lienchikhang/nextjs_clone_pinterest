@@ -2,6 +2,7 @@ import ModalLogin from "@/app/components/ModalLogin";
 import SlideShow from "@/app/components/SlideShow";
 import { Backdrop, Box, Fade, Modal, Typography } from "@mui/material";
 import { Metadata } from "next";
+import Link from "next/link";
 
 export const metadata: Metadata = {
     title: "Login - Pinterest",
@@ -56,6 +57,9 @@ const Login = () => {
                         </div>
                         <div className="modal__form">
                             <ModalLogin />
+                        </div>
+                        <div>
+                            <span className="to-register">Don't have an account? <Link href={'/auth/register'}>Click here</Link></span>
                         </div>
                         <div className="modal__bottom">
                             <span>By continuing, you agree to Pinterest's</span>

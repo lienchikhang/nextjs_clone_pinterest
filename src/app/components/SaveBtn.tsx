@@ -1,6 +1,7 @@
 'use client';
 import { Context } from '@/redux/context';
 import { useRouter } from 'next/navigation';
+import Cookies from 'js-cookie';
 import React, { useContext, useEffect, useState } from 'react';
 
 const SaveBtn = () => {
@@ -19,7 +20,7 @@ const SaveBtn = () => {
             payload: 'save',
             type: 'setActiveButton'
         });
-        navigate.back()
+        navigate.push(`/home/${Cookies.get('full_name')}`)
     }
 
     return (

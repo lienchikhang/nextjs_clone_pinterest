@@ -81,8 +81,8 @@ const ModalForm: React.FC = () => {
                 .then((res) => res.json())
                 .then((data) => [
                     console.log('data::', data),
-                    data.status === 409 && openNotification('topRight', data.mess),
-                    router.push('/')
+                    data.status === 409 && openNotification('topRight', data.message),
+                    data.status === 201 && router.push('/')
                 ])
 
         }

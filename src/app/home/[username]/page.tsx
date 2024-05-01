@@ -1,7 +1,5 @@
-import React, { useState } from 'react';
+import React from 'react';
 import '../../../styles/userPage.scss';
-import UserInfo from '@/app/components/UserInfo';
-import UserSave from '@/app/components/UserSave';
 import { Metadata } from 'next';
 import ImageSaveSection from '@/app/components/ImageSaveSection';
 

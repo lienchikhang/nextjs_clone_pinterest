@@ -6,7 +6,7 @@ const ButtonCreate = () => {
     const router = useRouter();
 
     const handleClick = () => {
-        router.push('/create');
+        router.push('/home/pin-create-tool');
     }
 
     return (

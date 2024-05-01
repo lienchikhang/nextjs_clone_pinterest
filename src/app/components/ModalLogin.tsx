@@ -91,7 +91,7 @@ const ModalLogin = () => {
                     },
                     type: 'updateUser'
                 });
-                data.status === 200 && router.push('/home')
+                data.status === 200 && router.push('/')
             })
     };
 

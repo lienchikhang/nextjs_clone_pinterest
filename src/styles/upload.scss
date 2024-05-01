@@ -1,0 +1,51 @@
+.create__wrapper {
+    @apply p-4;
+
+    .create__heading {
+        @apply p-6 rounded-t-xl;
+        border: 1px solid #cdcdcd;
+
+        h2 {
+            @apply text-xl font-medium;
+        }
+    }
+
+    .create__body {
+        @apply p-12;
+        border: 1px solid #cdcdcd;
+        border-top: 0;
+
+        .upload__section {
+            @apply w-5/6 h-[460px] mx-auto grid grid-cols-12 gap-10;
+
+            .upload__left {
+                @apply h-full col-span-5;
+
+                .ant-upload-wrapper {
+                    @apply block;
+                    height: 453px !important;
+                }
+
+                .placeImage {
+                    @apply w-full object-cover rounded-xl;
+                    height: 400px !important;
+                    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+
+                }
+
+                // .ant-upload-list.ant-upload-list-text {
+                //     display: none !important;
+                // }
+            }
+
+            .upload__right {
+                @apply col-span-7;
+
+                .input {
+                    @apply mb-5;
+                }
+            }
+        }
+    }
+
+}
