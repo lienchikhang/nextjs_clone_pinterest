@@ -34,7 +34,7 @@ const AvatarAction = () => {
 
     return (
         avatar
-            ? <Image onClick={handleClick} className='img' width={40} height={40} src={avatar} alt='avatar' />
+            ? <Image onClick={handleClick} className='img rounded-full' width={45} height={45} src={avatar} alt='avatar' />
             : <Avatar
                 onClick={handleClick}
                 sx={{ bgcolor: deepOrange[500], width: '40px', height: '40px', cursor: 'pointer' }}

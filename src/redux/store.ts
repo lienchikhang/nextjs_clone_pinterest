@@ -14,6 +14,7 @@ export const initialState = {
     isLoading: false,
     activeBtn: 'save',
     search: '',
+    menu: false,
 }
 
 export interface State {
@@ -27,6 +28,7 @@ export interface State {
     isLoading: boolean,
     activeBtn: string,
     search: string,
+    menu: boolean,
 }
 
 export interface Action {
@@ -71,6 +73,12 @@ const reducer = (state = initialState, action: Action) => {
             return {
                 ...state,
                 search: action.payload
+            }
+        }
+        case 'toggleMenu': {
+            return {
+                ...state,
+                menu: action.payload
             }
         }
         default: {

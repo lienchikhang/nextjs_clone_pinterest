@@ -1,0 +1,10 @@
+.custom-drawer {
+
+    @apply md:hidden;
+
+    .MuiPaper-root.MuiPaper-elevation {
+        @apply w-[65%] p-6;
+        // padding: 16px !important;
+
+    }
+}
