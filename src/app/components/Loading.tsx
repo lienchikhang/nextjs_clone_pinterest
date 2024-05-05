@@ -1,25 +1,17 @@
+'use client';
+import { Context } from '@/redux/context';
 import { CircularProgress, CircularProgressProps, circularProgressClasses } from '@mui/material';
-import React from 'react'
+import { stat } from 'fs';
+import React, { useContext } from 'react'
 
 const Loading = (props: CircularProgressProps) => {
+
+    const [state, dispatch] = useContext(Context);
+
+    console.log('state in loading', state);
+
     return (
-        <div className='loading__wrapper'>
-            {/* <CircularProgress
-                variant="indeterminate"
-                disableShrink
-                sx={{
-                    color: (theme) => (theme.palette.mode === 'light' ? '#1a90ff' : '#308fe8'),
-                    animationDuration: '550ms',
-                    position: 'absolute',
-                    left: 0,
-                    [`& .${circularProgressClasses.circle}`]: {
-                        strokeLinecap: 'round',
-                    },
-                }}
-                size={40}
-                thickness={4}
-                {...props}
-            /> */}
+        state.isLoading && <div className='loading__wrapper'>
             <React.Fragment>
                 <svg width={0} height={0}>
                     <defs>
@@ -32,6 +24,7 @@ const Loading = (props: CircularProgressProps) => {
                 <CircularProgress sx={{ 'svg circle': { stroke: 'url(#my_gradient)' } }} />
             </React.Fragment>
         </div>
+
     )
 }
 

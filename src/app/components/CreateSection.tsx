@@ -1,6 +1,7 @@
 import React from 'react'
 import UploadSection from './UploadSection'
 import '../../styles/upload.scss'
+import Loading from './Loading'
 
 const CreateSection = () => {
     return (
@@ -9,6 +10,7 @@ const CreateSection = () => {
                 <h2>Create Pin</h2>
             </div>
             <div className='create__body'>
+                <Loading />
                 <UploadSection />
             </div>
         </div>

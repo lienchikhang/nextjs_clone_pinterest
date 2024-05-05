@@ -1,5 +1,5 @@
 'use client';
-import React, { ChangeEvent, useRef, useState } from 'react'
+import React, { ChangeEvent, useContext, useRef, useState } from 'react'
 import { InboxOutlined } from '@ant-design/icons';
 import type { GetProp, NotificationArgsProps, UploadProps } from 'antd';
 import { message, notification, Upload } from 'antd';
@@ -9,6 +9,7 @@ import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import axios from 'axios';
 import Cookies from 'js-cookie';
 import Image from 'next/image';
+import { Context } from '@/redux/context';
 
 const { Dragger } = Upload;
 
@@ -37,6 +38,7 @@ const UploadSection = () => {
     const [placeImage, setPlaceImage] = useState<any>(null);
     const { register, handleSubmit, formState: { errors }, setFocus, control } = useForm<FormValues>();
     const [api, contextHolder] = notification.useNotification();
+    const [state, dispatch] = useContext(Context);
 
     const props: UploadProps = {
         name: 'file',
@@ -84,6 +86,10 @@ const UploadSection = () => {
     };
 
     const onSubmit: SubmitHandler<FormValues> = (formData) => {
+        dispatch({
+            type: 'toggleLoading',
+            payload: true,
+        });
         console.log('formDaat', formData);
         axios.post(`/api/image/create`, formData)
             .then((res: any) => {
@@ -109,9 +115,13 @@ const UploadSection = () => {
                             window.location.reload();
                             return;
                         }
-                        openSuccessNotification('topRight', res.data.message);
                         setPlaceImage(null);
                         setUploadInfo(null);
+                        dispatch({
+                            type: 'toggleLoading',
+                            payload: false,
+                        });
+                        openSuccessNotification('topRight', res.data.message);
                     })
             })
             .catch((err) => console.log('err', err))
@@ -155,6 +165,12 @@ const UploadSection = () => {
                                         variant="outlined"
                                         error={!!fieldState.error}
                                         {...register('title')}
+                                        onChange={(e) => {
+                                            field.onChange(e);
+                                            if (!e.target.value) {
+                                                field.onChange('');
+                                            }
+                                        }}
                                     />
                                 )
                             }}

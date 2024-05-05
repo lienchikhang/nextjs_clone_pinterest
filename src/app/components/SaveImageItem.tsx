@@ -16,7 +16,8 @@ const SaveImageItem: React.FC<Props> = ({ data }) => {
     const navigate = useRouter();
 
     const handleClick = () => {
-        navigate.push(`home/pin/${data.img_id}`);
+        console.log('data in saveimage', data)
+        navigate.push(`/home/pin/${data.img_id}`);
     }
 
 

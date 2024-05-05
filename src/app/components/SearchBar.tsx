@@ -24,10 +24,24 @@ const SearchBar = () => {
         })
     }
 
+    const handleEnter = (e: React.KeyboardEvent<HTMLInputElement>) => {
+        if (e.key == 'Enter') {
+            console.log('send', e.currentTarget.value)
+            dispatch({
+                type: 'addQuery',
+                payload: `qName=${e.currentTarget.value}`
+            })
+            dispatch({
+                payload: false,
+                type: 'toggleSearchModal'
+            })
+        }
+    }
+
     return (
         <React.Fragment>
             <SearchIcon />
-            <input onClick={handleSearch} type="text" placeholder='Search' />
+            <input onKeyDown={handleEnter} onClick={handleSearch} type="text" placeholder='Search' />
             <CancelIcon onClick={handleHideSearch} className={`${state.modal.isOpen && 'active'}`} />
         </React.Fragment>
     )
