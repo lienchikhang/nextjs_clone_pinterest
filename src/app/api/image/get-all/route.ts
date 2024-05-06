@@ -21,29 +21,13 @@ export async function GET(req: NextApiRequest, res: NextApiResponse) {
             queryPath = req.url?.split('api/')[1]
         }
 
-        console.log({ queryPath });
-
-        //check token expired
-        const newToken = await axiosInstance.post('auth/refresh', null, {
-            headers: {
-                'Authorization': `Bearer ${cookies().get('c_user')?.value}`,
-            }
-        });
-
-        console.log('newToken', newToken.data)
-
-
         let response2 = await axiosInstance.get(queryPath, {
             headers: {
                 'Authorization': `Bearer ${cookies().get('c_user')?.value}`
             }
         })
 
-        console.log('response2ddata', response2.data);
-
         return NextResponse.json(response2.data);
-
-
 
 
     } catch (error) {
@@ -53,13 +37,19 @@ export async function GET(req: NextApiRequest, res: NextApiResponse) {
             cookies().delete('c_user');
             cookies().delete('full_name');
             cookies().delete('avatar');
+
+            return NextResponse.json({
+                error: {
+                    mess: 'LoginExpired'
+                }
+            })
         }
 
         return NextResponse.json({
-            error,
+            error: {
+                mess: 'InternalError'
+            }
         })
 
     }
 }
-
-//eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTcxMzY5NjE4NCwiZXhwIjoxNzEzNjk2MjA0fQ._tXtXCDtvyYfY-V_wuXXfmY3XZoKVSWJ9D1YKoJKnDY

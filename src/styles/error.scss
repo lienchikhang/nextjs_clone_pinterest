@@ -1,0 +1,15 @@
+.error__wrapper {
+    @apply w-full h-screen flex justify-center items-center;
+
+    h1 {
+        @apply text-center text-4xl font-medium mb-2;
+    }
+
+    p {
+        @apply text-center text-sm;
+
+        a {
+            @apply text-red-600 font-medium cursor-pointer;
+        }
+    }
+}

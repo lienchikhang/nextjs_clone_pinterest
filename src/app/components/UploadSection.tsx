@@ -10,6 +10,7 @@ import axios from 'axios';
 import Cookies from 'js-cookie';
 import Image from 'next/image';
 import { Context } from '@/redux/context';
+import HandleInternalError from './HandleInternalError';
 
 const { Dragger } = Upload;
 
@@ -39,6 +40,8 @@ const UploadSection = () => {
     const { register, handleSubmit, formState: { errors }, setFocus, control } = useForm<FormValues>();
     const [api, contextHolder] = notification.useNotification();
     const [state, dispatch] = useContext(Context);
+    const [isError, setError] = useState<null | string>(null);
+
 
     const props: UploadProps = {
         name: 'file',
@@ -68,15 +71,6 @@ const UploadSection = () => {
 
     };
 
-    const handleChangeImg = (e: ChangeEvent<HTMLInputElement>) => {
-        if (e.target.files) {
-            // console.log(e.target.files)
-            const formData = new FormData();
-            formData.append('file', e.target.files[0]);
-            setUploadInfo(formData);
-        }
-    }
-
     const openSuccessNotification = (placement: NotificationPlacement, mess: string) => {
         api.success({
             message: `Notification`,
@@ -93,9 +87,19 @@ const UploadSection = () => {
         console.log('formDaat', formData);
         axios.post(`/api/image/create`, formData)
             .then((res: any) => {
-                if (res.data?.error) {
-                    alert('het phien dang nhap')
-                    return;
+                if (res?.data?.error) {
+                    if (res.data.error.mess == 'LoginExpired') {
+                        alert('het phien dang nhap');
+                        window.location.reload();
+                        return;
+                    } else {
+                        setError('Could not send data');
+                        dispatch({
+                            type: 'toggleLoading',
+                            payload: false,
+                        });
+                        return;
+                    }
                 }
                 console.log('res in create', res.data)
                 console.log('first')
@@ -130,89 +134,90 @@ const UploadSection = () => {
     return (
         <React.Fragment>
             {contextHolder}
-            <div className='upload__section'>
-                <div className='upload__left'>
-                    <Dragger {...props}>
-                        {
-                            !placeImage ? <div>
-                                <p className="ant-upload-drag-icon">
-                                    <InboxOutlined />
-                                </p>
-                                <p className="ant-upload-text">Click or drag file to this area to upload</p>
-                                <p className="ant-upload-hint">
-                                    Support for a single or bulk upload. Strictly prohibited from uploading company data or other
-                                    banned files.
-                                </p>
-                            </div> : <img className='placeImage' width={200} height={200} alt='placeimage' src={placeImage} />
-                        }
-                    </Dragger>
-                </div>
-                <div className='upload__right'>
-                    <form action="" onSubmit={handleSubmit(onSubmit)}>
-                        <Controller
-                            name="title"
-                            control={control}
-                            defaultValue=""
-                            rules={{ required: 'Title không được bỏ trống' }}
-                            render={({ field, fieldState }) => {
-                                return (
-                                    <TextField
-                                        {...field}
-                                        className="input"
-                                        id="outlined-basic"
-                                        label="Title"
-                                        fullWidth
-                                        variant="outlined"
-                                        error={!!fieldState.error}
-                                        {...register('title')}
-                                        onChange={(e) => {
-                                            field.onChange(e);
-                                            if (!e.target.value) {
-                                                field.onChange('');
-                                            }
-                                        }}
-                                    />
-                                )
-                            }}
-                        />
-                        {errors.title && <List className="sub-error-list">
-                            <ListItem>
-                                <ListItemAvatar>
-                                    <ErrorIcon />
-                                </ListItemAvatar>
-                                <ListItemText>
-                                    <p>Title không đúng được bỏ trống!</p>
-                                </ListItemText>
-                            </ListItem>
-                        </List>}
+            {isError ? <HandleInternalError mess={isError} /> :
+                <div className='upload__section'>
+                    <div className='upload__left'>
+                        <Dragger {...props}>
+                            {
+                                !placeImage ? <div>
+                                    <p className="ant-upload-drag-icon">
+                                        <InboxOutlined />
+                                    </p>
+                                    <p className="ant-upload-text">Click or drag file to this area to upload</p>
+                                    <p className="ant-upload-hint">
+                                        Support for a single or bulk upload. Strictly prohibited from uploading company data or other
+                                        banned files.
+                                    </p>
+                                </div> : <img className='placeImage' width={200} height={200} alt='placeimage' src={placeImage} />
+                            }
+                        </Dragger>
+                    </div>
+                    <div className='upload__right'>
+                        <form action="" onSubmit={handleSubmit(onSubmit)}>
+                            <Controller
+                                name="title"
+                                control={control}
+                                defaultValue=""
+                                rules={{ required: 'Title không được bỏ trống' }}
+                                render={({ field, fieldState }) => {
+                                    return (
+                                        <TextField
+                                            {...field}
+                                            className="input"
+                                            id="outlined-basic"
+                                            label="Title"
+                                            fullWidth
+                                            variant="outlined"
+                                            error={!!fieldState.error}
+                                            {...register('title')}
+                                            onChange={(e) => {
+                                                field.onChange(e);
+                                                if (!e.target.value) {
+                                                    field.onChange('');
+                                                }
+                                            }}
+                                        />
+                                    )
+                                }}
+                            />
+                            {errors.title && <List className="sub-error-list">
+                                <ListItem>
+                                    <ListItemAvatar>
+                                        <ErrorIcon />
+                                    </ListItemAvatar>
+                                    <ListItemText>
+                                        <p>Title không đúng được bỏ trống!</p>
+                                    </ListItemText>
+                                </ListItem>
+                            </List>}
 
-                        <Controller
-                            name="desc"
-                            control={control}
-                            defaultValue=""
-                            rules={{ required: 'Description không được bỏ trống' }}
-                            render={({ field, fieldState }) => {
-                                return (
-                                    <TextField
-                                        {...field}
-                                        className="input"
-                                        id="outlined-basic"
-                                        label="Description"
-                                        type="text"
-                                        multiline
-                                        fullWidth
-                                        variant="outlined"
-                                        {...register('desc')}
-                                    />
-                                )
-                            }}
-                        />
+                            <Controller
+                                name="desc"
+                                control={control}
+                                defaultValue=""
+                                rules={{ required: 'Description không được bỏ trống' }}
+                                render={({ field, fieldState }) => {
+                                    return (
+                                        <TextField
+                                            {...field}
+                                            className="input"
+                                            id="outlined-basic"
+                                            label="Description"
+                                            type="text"
+                                            multiline
+                                            fullWidth
+                                            variant="outlined"
+                                            {...register('desc')}
+                                        />
+                                    )
+                                }}
+                            />
 
-                        <Button className="form-btn" type="submit">Continue</Button>
-                    </form>
+                            <Button className="form-btn" type="submit">Continue</Button>
+                        </form>
 
-                </div>
-            </div>
+                    </div>
+                </div>}
         </React.Fragment>
     )
 }

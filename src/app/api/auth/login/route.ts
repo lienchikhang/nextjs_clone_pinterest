@@ -35,8 +35,12 @@ export async function POST(req: NextApiRequest, res: NextResponse) {
         return res;
 
     } catch (error) {
-        console.log('erorr', error)
-        return NextResponse.json({ error: true })
+
+        return NextResponse.json({
+            error: {
+                mess: 'InternalError'
+            }
+        })
     }
 
 }

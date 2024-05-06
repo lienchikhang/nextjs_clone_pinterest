@@ -1,17 +1,13 @@
 'use client'
 
 import React, { useContext, useEffect, useState } from 'react'
-import useSWR from 'swr'
 import ImageItem from './ImageItem';
 import axios from 'axios';
 import Loading from './Loading';
 import InfiniteScroll from 'react-infinite-scroll-component';
-import { Waypoint } from 'react-waypoint';
 import { Context } from '@/redux/context';
-import { stat } from 'fs';
+import HandleInternalError from './HandleInternalError';
 
-
-const fetcher = (url: string) => axios.get(url)
 
 interface Image {
     img_url: string
@@ -25,11 +21,12 @@ const ImagesSection = () => {
     const [page, setPage] = useState<number>(2);
     const [total, setTotal] = useState(0);
     const [state, dispatch] = useContext(Context);
+    const [isError, setError] = useState<null | string>(null);
 
 
     console.log({ page, total, images });
 
-    //?page=${page}
+    // ?page=${page}
     useEffect(() => {
         dispatch({
             type: 'toggleLoading',
@@ -38,19 +35,31 @@ const ImagesSection = () => {
         axios.get(`/api/image/get-all${state?.search && `?${state.search}`}`)
             .then((res) => {
                 if (res?.data?.error) {
-                    alert('het phien dang nhap');
-                    window.location.reload();
-                    return;
+                    if (res.data.error.mess == 'LoginExpired') {
+                        alert('het phien dang nhap');
+                        window.location.reload();
+                        return;
+                    } else {
+                        setError('Could not fetch data for that resource');
+                        dispatch({
+                            type: 'toggleLoading',
+                            payload: false,
+                        });
+                        return;
+                    }
                 }
-                setImages(res?.data?.content?.data);
-                setTotal(res.data.content.totalPage);
-                setPage(2);
-                dispatch({
-                    type: 'toggleLoading',
-                    payload: false,
-                });
+
+                if (res) {
+                    setImages(res?.data?.content?.data);
+                    setTotal(res.data.content.totalPage);
+                    setPage(2);
+                    dispatch({
+                        type: 'toggleLoading',
+                        payload: false,
+                    });
+                }
             })
-            .catch((err) => console.log('err', err))
+            .catch((err) => [console.log('err', err)])
     }, [state.search])
 
     const fetchMoreData = (page: number) => {
@@ -60,7 +69,20 @@ const ImagesSection = () => {
         });
         axios.get(`/api/image/get-all?page=${page}&${state?.search && state.search}`)
             .then((res) => {
-                console.log('rs', res.data);
+                if (res?.data?.error) {
+                    if (res.data.error.mess == 'LoginExpired') {
+                        alert('het phien dang nhap');
+                        window.location.reload();
+                        return;
+                    } else {
+                        setError('Could not fetch data for that resource');
+                        dispatch({
+                            type: 'toggleLoading',
+                            payload: false,
+                        });
+                        return;
+                    }
+                }
                 setImages(prev => [...prev, ...res.data.content.data]);
                 setPage(prev => prev + 1);
                 dispatch({
@@ -76,7 +98,7 @@ const ImagesSection = () => {
     return (
         <React.Fragment>
             <Loading />
-            <InfiniteScroll
+            {isError ? <HandleInternalError mess={isError} /> : <InfiniteScroll
                 className='images__wrapper'
                 dataLength={images.length}
                 next={() => fetchMoreData(page)}
@@ -87,7 +109,7 @@ const ImagesSection = () => {
                 {images && images.map((img: Image, idx: number) => (
                     <ImageItem key={idx} data={img} />
                 ))}
-            </InfiniteScroll>
+            </InfiniteScroll>}
         </React.Fragment>
     )
 }

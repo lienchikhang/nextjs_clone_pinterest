@@ -20,15 +20,22 @@ export async function GET(req: NextRequest, res: NextResponse) {
         return NextResponse.json(rs.data)
 
     } catch (error) {
-        console.log('errororrorr', error)
         if (error === 'LoginExpired') {
             cookies().delete('c_user');
             cookies().delete('full_name');
             cookies().delete('avatar');
-            return NextResponse.json({ error })
 
+            return NextResponse.json({
+                error: {
+                    mess: 'LoginExpired'
+                }
+            })
         }
 
-        return NextResponse.error();
+        return NextResponse.json({
+            error: {
+                mess: 'InternalError'
+            }
+        })
     }
 }

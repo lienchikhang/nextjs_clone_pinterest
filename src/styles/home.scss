@@ -161,7 +161,7 @@ header {
 
     .images__wrapper {
         columns: 5;
-        @apply gap-5 px-20;
+        @apply gap-5 px-20 mt-4;
         break-inside: avoid;
 
         .image__item {

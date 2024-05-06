@@ -57,6 +57,14 @@ const ModalForm: React.FC = () => {
         });
     };
 
+    const openErrorNotification = (placement: NotificationPlacement, mess: string) => {
+        api.error({
+            message: `Notification`,
+            description: mess,
+            placement,
+        });
+    };
+
     const onChangeDate = (newDate: Dayjs | null, context: PickerChangeHandlerContext<DateValidationError>) => {
         setSelectedDate(newDate?.format('YYYY-MM-DD'));
     }
@@ -81,6 +89,7 @@ const ModalForm: React.FC = () => {
                 .then((res) => res.json())
                 .then((data) => [
                     console.log('data::', data),
+                    data.error && openErrorNotification('topRight', 'Internal Server Error'),
                     data.status === 409 && openNotification('topRight', data.message),
                     data.status === 201 && router.push('/')
                 ])

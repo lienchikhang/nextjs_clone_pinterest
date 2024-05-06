@@ -11,7 +11,7 @@ export default function middleware(req: NextRequest) {
 
     let token = req.cookies.get('c_user')?.value;
 
-    console.log('verify middle', token);
+    // console.log('verify middle', token);
 
     // axios.post('http://localhost:8080/auth/check', null, {
     //     withCredentials: true,

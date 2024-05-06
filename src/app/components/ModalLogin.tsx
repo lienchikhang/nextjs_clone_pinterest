@@ -48,7 +48,7 @@ const ModalLogin = () => {
         setFocus("email");
     }, [setFocus]);
 
-    const openErrorNotification = (placement: NotificationPlacement, mess: string) => {
+    const openWarningNotification = (placement: NotificationPlacement, mess: string) => {
         api.warning({
             message: `Notification`,
             description: mess,
@@ -58,6 +58,14 @@ const ModalLogin = () => {
 
     const openSuccessNotification = (placement: NotificationPlacement, mess: string) => {
         api.success({
+            message: `Notification`,
+            description: mess,
+            placement,
+        });
+    };
+
+    const openErrorNotification = (placement: NotificationPlacement, mess: string) => {
+        api.error({
             message: `Notification`,
             description: mess,
             placement,
@@ -79,8 +87,10 @@ const ModalLogin = () => {
         })
             .then((res) => res.json())
             .then(async (data) => {
-                console.log('data::', data.content);
-                data.status === 409 || data.status === 400 && openErrorNotification('topRight', data.message);
+                if (data?.error) {
+                    openErrorNotification('topRight', 'Internal Server Error');
+                }
+                data.status === 409 || data.status === 400 && openWarningNotification('topRight', data.message);
                 data.status === 200 && openSuccessNotification('topRight', data.message);
                 data.status === 200 && await sleep();
                 data.status === 200 && Cookies.set('c_user', data.content.accessToken);
