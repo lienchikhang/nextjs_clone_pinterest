@@ -2,7 +2,7 @@
     @apply px-10; //mt-24
 
     .pin__btn-back {
-        @apply bg-transparent cursor-pointer flex items-center fixed top-24 left-5;
+        @apply hidden sm:flex bg-transparent cursor-pointer items-center fixed top-24 left-5;
 
         svg {
             @apply p-2 mr-2 w-[40px] h-[40px] rounded-full transition-all;
@@ -13,12 +13,12 @@
         }
 
         span {
-            @apply font-medium text-xl
+            @apply hidden lg:block font-medium text-xl
         }
     }
 
     .pin__modal {
-        @apply w-[75%] mx-auto min-h-[750px] relative bg-white rounded-3xl flex items-center mt-5; //overflow-hidden
+        @apply block w-[100%] sm:w-[85%] md:w-[75%] sm:mx-auto lg:min-h-[750px] relative bg-white rounded-3xl lg:flex items-center mt-5; //overflow-hidden
         // box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
         // box-shadow: rgba(17, 17, 26, 0.1) 0px 1px 0px, rgba(17, 17, 26, 0.1) 0px 8px 24px, rgba(17, 17, 26, 0.1) 0px 16px 48px;
         // box-shadow: rgba(0, 0, 0, 0.56) 0px 22px 70px 4px;
@@ -26,18 +26,18 @@
 
         .pin__img {
 
-            @apply w-1/2 max-h-[750px] overflow-scroll;
+            @apply w-full h-auto lg:w-1/2 lg:max-h-[750px] overflow-scroll;
 
             img {
-                @apply w-full object-contain rounded-s-3xl;
+                @apply w-full rounded-t-3xl object-contain lg:rounded-e-none;
             }
         }
 
         .pin__info {
-            @apply w-1/2 absolute top-0 bottom-0 right-0;
+            @apply w-full lg:w-1/2;
 
             .pin__action {
-                @apply flex items-center justify-between sticky left-0 top-20 bg-white p-4 z-50 rounded-t-3xl;
+                @apply flex items-center justify-between sticky left-0 top-20 bg-white p-4 z-50 lg:rounded-t-3xl;
 
                 svg {
                     @apply p-2 mr-2 w-[40px] h-[40px] rounded-full transition-all;

@@ -38,7 +38,6 @@ const Register = () => {
         <div>
             <SlideShow />
             <Modal
-                className="modal__wrapper"
                 aria-labelledby="transition-modal-title"
                 aria-describedby="transition-modal-description"
                 open={true}
@@ -51,7 +50,7 @@ const Register = () => {
                 }}
             >
                 <Fade in={true}>
-                    <Box sx={style}>
+                    <Box sx={style} className="modal__wrapper" >
                         <div className='modal__top'>
                             <svg height="40" viewBox="-3 -3 82 82" width="40">
                                 <title>Pinterest logo</title>

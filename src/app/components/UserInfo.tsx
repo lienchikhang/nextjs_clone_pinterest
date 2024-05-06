@@ -1,8 +1,6 @@
 'use client';
 import Image from 'next/image';
 import React, { useEffect, useState } from 'react'
-import CreateBtn from './CreateBtn';
-import SaveBtn from './SaveBtn';
 import axios from 'axios';
 import { deepOrange } from '@mui/material/colors';
 import { Avatar } from '@mui/material';

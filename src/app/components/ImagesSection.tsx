@@ -39,6 +39,7 @@ const ImagesSection = () => {
             .then((res) => {
                 if (res?.data?.error) {
                     alert('het phien dang nhap');
+                    window.location.reload();
                     return;
                 }
                 setImages(res?.data?.content?.data);

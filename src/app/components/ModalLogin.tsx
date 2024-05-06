@@ -84,13 +84,7 @@ const ModalLogin = () => {
                 data.status === 200 && openSuccessNotification('topRight', data.message);
                 data.status === 200 && await sleep();
                 data.status === 200 && Cookies.set('c_user', data.content.accessToken);
-                data.status === 200 && Cookies.set('full_name', data.content.full_name.split('')[0]) && Cookies.set('avatar', data.content.avatar || '') && dispatch({
-                    payload: {
-                        full_name: data.content.full_name,
-                        avatar: data.content.avatar || ''
-                    },
-                    type: 'updateUser'
-                });
+                data.status === 200 && Cookies.set('full_name', data.content.full_name) && Cookies.set('avatar', data.content.avatar || '')
                 data.status === 200 && window.location.reload();
             })
     };

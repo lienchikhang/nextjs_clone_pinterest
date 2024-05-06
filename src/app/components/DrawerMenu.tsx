@@ -54,6 +54,14 @@ const DrawerMenu = () => {
         window.location.reload();
     }
 
+    const handleClickCreate = () => {
+        dispatch({
+            type: 'toggleMenu',
+            payload: false,
+        })
+        router.push(`/home/pin-create-tool`);
+    }
+
     return (
         <SwipeableDrawer
             anchor={'right'}
@@ -89,7 +97,7 @@ const DrawerMenu = () => {
                     </ListSubheader>
                 }
             >
-                <ListItemButton>
+                <ListItemButton onClick={handleClickCreate}>
                     <ListItemIcon>
                         <AddBoxIcon />
                     </ListItemIcon>

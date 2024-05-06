@@ -2,19 +2,14 @@
 
 import axios from 'axios';
 import Image from 'next/image';
-import React, { ChangeEvent, useContext, useEffect, useRef, useState } from 'react'
-import useSWR from 'swr';
-import SaveButton from './SaveButton';
+import React, { ChangeEvent, useEffect, useRef, useState } from 'react'
 import ShareButton from './ShareButton';
 import { Avatar, Collapse, List, ListItem } from '@mui/material';
 import { deepOrange } from '@mui/material/colors';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import CommentItem from './CommentItem';
-import { Context } from '@/redux/context';
-import UserAvatar from './UserAvatar';
 import SendIcon from '@mui/icons-material/Send';
-import { error } from 'console';
 import SaveBtnDetail from './SaveBtnDetail';
 
 interface props {
